@@ -1,7 +1,10 @@
 package com.kerem.main;
 
+import com.kerem.config.AppConfig;
 import com.kerem.entity.User;
+import com.kerem.services.LoginService;
 import com.kerem.services.UserService;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,14 +12,15 @@ import java.util.List;
 public class MainClass {
     public static void main(String[] args) {
 
-        UserService userService = new UserService();
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        UserService userService = context.getBean(UserService.class);
 
-         List<User> userList = new ArrayList<>();
+        System.out.println(userService.getUserList());
 
-         userList.add(new User("Kerem"));
-         userList.add(new User("Bilal"));
-         userService.setUserList(userList);
-
-         UserService userService2 = new UserService();
+        for (User user : userService.getUserList()) {
+            System.out.println(user);
+        }
+        LoginService loginService = new LoginService();
+        loginService.login();;
     }
 }
